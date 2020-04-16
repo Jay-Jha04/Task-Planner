@@ -9,14 +9,10 @@ const { Todos, todoValidation } = require('../models/todos')
 const router = express.Router()
 
 //All API's
-router.get('/', async(req,res)=>{
-    const todos=await Todos.findAll();
-    res.render('index',{todos:todos})
-});
-
-router.route('/todos')
-    .get((req,res)=>{
-       res.render('todosRegister')
+router.route('/')
+    .get(async(req,res)=>{
+        const todos=await Todos.findAll();
+        res.render('index',{todos:todos});
     })
     .post(async(req,res)=>{
         const {error}=todoValidation(req.body);
@@ -29,6 +25,21 @@ router.route('/todos')
             priority: req.body.priority
         });
         await todo.save();
+        res.redirect('/todos');
     });
 
-    module.exports = router
+
+router.get('/:id', async (req, res) => {
+    const todo = await Todos.findByPk(req.params.id);
+    if (isNaN(parseInt(req.params.id))) {
+        return res.status(400).send({error: 'todo id must be an integer'});
+    }
+
+    if (!todo) {
+        return res.status(404).send({error:'No todo found with id = ' + req.params.id})
+    }
+    res.render('taskEdit', { todo });
+})
+
+
+module.exports = router

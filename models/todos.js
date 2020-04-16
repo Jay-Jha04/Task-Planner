@@ -18,14 +18,16 @@ const Todos = db.define('todo',{
         allowNull : false
     },
     description : {
-        type : sequelize.STRING(200),
+        type : sequelize.STRING(400),
     },
     due : {
         type : sequelize.DATE,
         allowNull : false,
     },
     status: {
-        type: sequelize.STRING()
+        type: sequelize.STRING(),
+        defaultValue : 'Incomplete'
+
     },
     priority: {
         type : sequelize.STRING(100),
@@ -37,7 +39,7 @@ const Todos = db.define('todo',{
 function validation(user){
     const schema={
         title: Joi.string().max(100).required(),
-        description: Joi.string().max(200),
+        description: Joi.string().max(400),
         due : Joi.date().required(),
         status: Joi.string(),
         priority: Joi.string().required()
