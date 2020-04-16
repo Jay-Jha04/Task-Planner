@@ -40,6 +40,11 @@ body {
   }
   
   .cardStyle{
-    height: 20em;
+    height: 22em;
+}
+
+#explore-section .filterForm{
+  margin-bottom: 2em;
+  margin-left:12em;
 }
   

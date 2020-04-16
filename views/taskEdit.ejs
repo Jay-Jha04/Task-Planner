@@ -26,7 +26,7 @@
       <div id="todoForm"  class="container">
         <h1>Todo Register</h1>
 
-        <form> 
+        <form action="/todos/<%=todo.id%>?_method=PATCH" method="POST"> 
             <div class="js-form-message form-group mb-3">
                 <input type="text" class="form-control" name="title" placeholder="Title" value="<%=todo.title%>" required>
             </div>

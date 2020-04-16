@@ -1,6 +1,4 @@
 const sequelize = require('sequelize');
-const Joi = require('Joi');
- 
 
 const db = new sequelize({
     dialect: 'sqlite',
@@ -36,19 +34,21 @@ const Todos = db.define('todo',{
     }
 })
 
-function validation(user){
-    const schema={
-        title: Joi.string().max(100).required(),
-        description: Joi.string().max(400),
-        due : Joi.date().required(),
-        status: Joi.string(),
-        priority: Joi.string().required()
+const Notes = db.define('note',{
+    id: {
+        type : sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement : true
+    },
+    taskId : {
+        type: sequelize.INTEGER,
+        allowNull : false
+    },
+    description : {
+        type : sequelize.STRING(400),
     }
- 
-    return Joi.validate(user,schema);
-}
-    
-exports.db=db;
-exports.todoValidation=validation;
-exports.Todos=Todos;
+})
 
+exports.db=db;
+exports.Todos=Todos;
+exports.Notes=Notes;

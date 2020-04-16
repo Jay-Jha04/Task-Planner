@@ -31,7 +31,7 @@
                     <div class="card-body">
                       <h3>Add Tasks</h3>
                       <p>Please fill out the tasks details</p>
-                      <form method="POST">
+                      <form action="/todos" method="POST">
                         <div class="js-form-message form-group mb-3">
                           <input type="text" class="form-control" name="title" placeholder="Title" required>
                         </div>
@@ -45,9 +45,8 @@
                           <input type="date" class="form-control" name="due" placeholder="Due Date" required>
                         </div>
                         <select class="custom-select mb-3" name="priority">
-                          <option selected>Priority</option>
                           <option value="high">High</option>
-                          <option value="medium">Medium</option>
+                          <option selected value="medium">Medium</option>
                           <option value="low">Low</option>
                         </select>
                         <div class="js-form-message form-group mb-3">
@@ -84,6 +83,18 @@
 
     <section id="explore-section" class="bg-light text-muted py-5">
         <div class="container">
+          <div class="filterForm w-50">
+            <form class="d-flex d-flex-row" action="/todos?_method=GET" method="POST">
+              <select class="custom-select" name="filters">
+                <option selected>Select Filters</option>
+                <option value="priority">High to Low Priority</option>
+                <option value="dateDesc">Recent Tasks</option>
+                <option value="dateAsc">Older Tasks</option>
+                <option value="status">Status Wise</option>
+              </select>
+              <button type="submit" class="btn btn-outline-primary mb-2 ml-4">Apply</button>
+            </form>
+          </div>
           <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div id="accordion">
@@ -104,9 +115,29 @@
                                 <h5 class="card-title"><p class="lead text-capitalize">Task Priority:- <%= todo.priority%></p></h5>
                                 <h5 class="card-title"><p class="lead text-capitalize">Task Status:- <%= todo.status%></p></h5>
                                 <p class="card-text"><%-todo.description%></p>
-                                <a href="/todos/<%=todo.id%>" class="btn btn-outline-primary">Edit</a>
-                            </div>
+                                <a href="/todos/<%=todo.id%>" class="btn btn-outline-primary mb-1">Edit</a>
+                                <a href="/todos/<%=todo.id%>/notes" class="btn btn-outline-primary ml-3 mb-1">Notes</a>
+        
+                            </div>    
                         </div>
+
+                        <!-- notes -->
+                        <div>
+                          <div class="card">
+                              <div class="card-header text-dark">
+                                  Notes
+                              </div>
+                              <div class="card-body">
+                                  <form action="/todos/<%=todo.id%>/notes" method="post">
+                                      <div class="form-group">
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" name="description"></textarea>
+                                      </div>
+                                      <button type="submit" class="btn btn-outline-primary">Add Notes</button>
+                                    </form>
+                              </div>
+                          </div>
+                        </div>
+
                       </div>
                     </div>
                     <%}); %>
